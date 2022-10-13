@@ -1,0 +1,11 @@
+{
+  "ids": {
+    "User": 3
+  },
+  "models": {
+    "User": {
+      "1": "{\"firstName\":\"User\",\"middleName\":\"\",\"lastName\":\"Two\",\"email\":\"user.2@gmail.com\",\"address\":\"ABC Street 2, India\",\"phoneNumber\":\"9878787662\",\"role\":\"Admin\",\"createdOn\":\"2022-10-13T13:22:12.201Z\",\"id\":1}",
+      "2": "{\"firstName\":\"User\",\"middleName\":\"\",\"lastName\":\"Two\",\"email\":\"user.2@gmail.com\",\"address\":\"ABC Street 2, India\",\"phoneNumber\":\"9878787662\",\"role\":\"Admin\",\"createdOn\":\"2022-10-13T13:22:12.201Z\",\"id\":2}"
+    }
+  }
+}
