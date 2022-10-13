@@ -9,8 +9,8 @@ create .env file in root directory
 
 Onve the file is created add below env variables in file 
 ```
-LOG_LEVEL
-ALLOWED_ORIGIN
+LOG_LEVEL // Values can be ínfo, debug, error, warn
+ALLOWED_ORIGIN // if you want to add multiple origins then add || as seperator in between two origins
 ```
 
 refer below example 
