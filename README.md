@@ -7,7 +7,7 @@ This application is generated using [LoopBack 4 CLI](https://loopback.io/doc/en/
 
 create .env file in root directory
 
-Onve the file is created add below env variables in file 
+Once the file is created add below env variables in file 
 ```
 LOG_LEVEL // Values can be ínfo, debug, error, warn
 ALLOWED_ORIGIN // if you want to add multiple origins then add || as seperator in between two origins
