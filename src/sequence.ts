@@ -3,7 +3,6 @@ import { FindRoute, InvokeMethod, ParseParams, Reject, RequestContext, Send, Seq
 import { LoggerServiceImpl } from './components/logger/logger.service';
 import { LogBinders, LOG_LEVEL } from './keys';
 import * as dotenv from "dotenv";
-import { LogWriterFunction } from './types';
 dotenv.config();
 
 const allowedOrigins = process.env.ALLOWED_ORIGIN ? process.env.ALLOWED_ORIGIN.split("||") : [];
@@ -16,24 +15,20 @@ export class MySequence implements SequenceHandler {
         @inject(SequenceActions.INVOKE_METHOD) protected invoke: InvokeMethod,
         @inject(SequenceActions.SEND) public send: Send,
         @inject(SequenceActions.REJECT) public reject: Reject,
-        @inject(LogBinders.LOGGER) private logger: LoggerServiceImpl,
-        @inject('example.dynamic.value') private dynamicVal: string,
-        @inject(LogBinders.LOGGER_PROVIDER) private logWriterFn: LogWriterFunction
+        @inject(LogBinders.LOGGER) private logger: LoggerServiceImpl
     ) {
     }
 
     async handle(context: RequestContext): Promise<void> {
         const { request, response } = context;
-        this.logger.log(LOG_LEVEL.DEBUG, this.dynamicVal)
+        const referer = (request.headers['referer'] || request.headers['host'])?.replace(/(http|https):\/\//, '')?.split('/')[0];
         let message = `${request.method} ${request.url} started at ${new Date().toString()}.`;
-        message = message + ` Referer : ${(request.headers['referer'] || request.headers['host'])}`;
+        message = message + ` Referer : ${referer}`;
         message = message + ` User-Agent : ${request.headers['user-agent']}`;
         message = message + ` Remote Address : ${request['connection']['remoteAddress']}`;
-        this.logWriterFn(LOG_LEVEL.INFO, `${request.method} ${request.url} -------- new request------`);
         this.logger.log(LOG_LEVEL.INFO, message);
 
         try {
-            let referer = (request.headers['referer'] || request.headers['host'])?.replace(/(http|https):\/\//, '');
             if (!allowedOrigins.find(ele => ele.toUpperCase() == referer?.toUpperCase())) {
                 // this.send(context,{ 'Not Allowed to access this'});
                 this.logger.log(LOG_LEVEL.ERROR, `${request.method} ${request.url} :--: ERROR : ${referer} not matched with allowed origins`);
