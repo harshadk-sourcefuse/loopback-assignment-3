@@ -21,14 +21,14 @@ export class MySequence implements SequenceHandler {
 
     async handle(context: RequestContext): Promise<void> {
         const { request, response } = context;
+        const referer = (request.headers['referer'] || request.headers['host'])?.replace(/(http|https):\/\//, '')?.split('/')[0];
         let message = `${request.method} ${request.url} started at ${new Date().toString()}.`;
-        message = message + ` Referer : ${(request.headers['referer'] || request.headers['host'])}`;
+        message = message + ` Referer : ${referer}`;
         message = message + ` User-Agent : ${request.headers['user-agent']}`;
         message = message + ` Remote Address : ${request['connection']['remoteAddress']}`;
         this.logger.log(LOG_LEVEL.INFO, message);
 
         try {
-            let referer = (request.headers['referer'] || request.headers['host'])?.replace(/(http|https):\/\//, '');
             if (!allowedOrigins.find(ele => ele.toUpperCase() == referer?.toUpperCase())) {
                 // this.send(context,{ 'Not Allowed to access this'});
                 this.logger.log(LOG_LEVEL.ERROR, `${request.method} ${request.url} :--: ERROR : ${referer} not matched with allowed origins`);
